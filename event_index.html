@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Makin' Memories ｜ ディズニーロルカナ イベント</title>
+<meta name="description" content="毎週水曜、西葛西のピットインで開催しているディズニーロルカナのカジュアルイベントです。勝敗を記録しません。">
+<style>
+  :root{--navy:#1A1733;--card:#262148;--gold:#E0B24C;--cream:#F4F0E6;--muted:#A79FC4;--line:#3B3566;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{margin:0;background:var(--navy);color:var(--cream);
+    font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;
+    -webkit-text-size-adjust:100%;line-height:1.8;}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 60px;}
+
+  header{padding:18px 0 6px;}
+  .brand{font-size:12px;letter-spacing:.1em;color:var(--gold);font-weight:700;}
+
+  .hero{text-align:center;padding:36px 0 30px;}
+  .hero img{max-width:280px;width:78%;height:auto;}
+  .hero .fallback{font-size:34px;font-weight:700;font-style:italic;color:var(--gold);}
+  .hero .copy{font-size:16px;color:var(--cream);margin-top:18px;font-style:italic;}
+  .hero .sub{font-size:12px;color:var(--muted);letter-spacing:.14em;margin-top:10px;}
+
+  .rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px 0;}
+  .rule i{display:block;width:56px;height:1px;background:var(--line);}
+  .rule span{color:var(--gold);font-size:13px;}
+
+  .poem{text-align:center;font-size:15px;color:var(--cream);line-height:2.2;padding:6px 0 10px;}
+
+  h2{font-size:12px;letter-spacing:.18em;color:var(--gold);font-weight:700;
+    margin:42px 0 14px;text-align:center;}
+
+  .info{background:var(--card);border-radius:14px;padding:20px 22px;}
+  .info dl{margin:0;display:grid;grid-template-columns:5.5em 1fr;row-gap:10px;}
+  .info dt{font-size:12px;color:var(--muted);padding-top:3px;}
+  .info dd{margin:0;font-size:15px;}
+
+  .three{display:grid;gap:12px;}
+  .item{background:var(--card);border-radius:14px;padding:18px 20px;}
+  .item h3{margin:0 0 6px;font-size:16px;color:var(--gold);}
+  .item p{margin:0;font-size:13.5px;color:var(--cream);}
+
+  ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;}
+  ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 42px;font-size:14px;}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;
+    width:26px;height:26px;border-radius:13px;background:var(--gold);color:var(--navy);
+    font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  ol.steps li b{color:var(--gold);font-weight:700;}
+
+  .note{background:none;border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;font-size:13.5px;color:var(--cream);}
+  .note p{margin:0 0 10px;}
+  .note p:last-child{margin:0;}
+  .note em{color:var(--gold);font-style:normal;font-weight:700;}
+
+  .shows{display:grid;gap:10px;}
+  .show{display:flex;align-items:center;gap:14px;background:var(--card);
+    border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--cream);}
+  .show .d{font-size:11px;color:var(--muted);min-width:5.5em;}
+  .show .t{flex:1;font-size:15px;font-weight:700;}
+  .show .go{font-size:12px;color:var(--gold);white-space:nowrap;}
+  .show.none{color:var(--muted);}
+  .loading{font-size:13px;color:var(--muted);text-align:center;padding:10px;}
+
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
+    text-align:center;font-size:11.5px;color:var(--muted);line-height:2;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header><div class="brand">MAKIN' MEMORIES</div></header>
+
+<div class="hero">
+  <img src="../logo.png" alt="Makin' Memories"
+       onerror="this.outerHTML='&lt;div class=&quot;fallback&quot;&gt;Makin&#39; Memories&lt;/div&gt;'">
+  <div class="copy">あなたのショーを魅せてください</div>
+  <div class="sub">ディズニーロルカナ イベント</div>
+</div>
+
+<div class="rule"><i></i><span>✦</span><i></i></div>
+
+<div class="poem">
+  好きなキャラクターを輝かせる場所。<br>
+  誰かが目を見張ったら、どうぞ拍手を送ってください。<br>
+  その一場面は思い出になり、あなたの手に残ります。
+</div>
+
+<h2>開催情報</h2>
+<div class="info">
+  <dl>
+    <dt>日時</dt><dd>毎週水曜 14:00 - 17:00</dd>
+    <dt>場所</dt><dd>ピットイン 西葛西</dd>
+    <dt>参加費</dt><dd>無料</dd>
+    <dt>予約</dt><dd>不要。途中参加・途中退出も自由です</dd>
+    <dt>持ち物</dt><dd>デッキ（お持ちでない方はご相談ください）</dd>
+  </dl>
+</div>
+
+<h2>この場について</h2>
+<div class="three">
+  <div class="item">
+    <h3>順位表はありません</h3>
+    <p>勝敗を記録しません。ラウンド制でも時間制でもないので、好きなペースで遊べます。その日まだ対戦していない方と、ゆっくりどうぞ。</p>
+  </div>
+  <div class="item">
+    <h3>かわりに、拍手があります</h3>
+    <p>相手のデッキやプレイに「いいな」と思ったら、そのまま伝えてください。対戦のあとには、良かったところをひとつだけ。アドバイスは、聞かれたときにお願いします。</p>
+  </div>
+  <div class="item">
+    <h3>写真が残ります</h3>
+    <p>いい場面が生まれたら、手を挙げて呼んでください。撮りに行きます。その場でプリントしてお渡しすることもあります。</p>
+  </div>
+</div>
+
+<h2>参加の流れ</h2>
+<ol class="steps">
+  <li><b>ご登録</b><br>はじめての方は、店頭のカードをかざすか、QRコードから。お名前や連絡先は伺いません。呼び名だけご登録ください。</li>
+  <li><b>チケットをお渡しします</b><br>受付用のカードです。2回目からは、これをかざすだけで受付できます。</li>
+  <li><b>対戦とアプローズ</b><br>好きなキャラクターのデッキで、好きなように。いいと思ったら、そう伝えてください。</li>
+  <li><b>写真をお渡しします</b><br>撮った写真は、後日こちらのページからもご覧いただけます。</li>
+</ol>
+
+<h2>写真について</h2>
+<div class="note">
+  <p>撮影するのは<em>卓の上だけ</em>です。商品棚や店内の様子は写しません。</p>
+  <p>お顔の写真は、撮影をご希望の方のみ。<em>その場でプリントしてお渡しするだけで、インターネットには一切掲載しません。</em></p>
+  <p>盤面やグッズの写真は、掲載をご了承いただいた方のぶんのみ、下記のアルバムで公開しています。掲載をご希望されない場合は、いつでもお申し付けください。</p>
+</div>
+
+<h2>公演の記録</h2>
+<div class="shows" id="shows">
+  <div class="loading">読み込んでいます…</div>
+</div>
+
+<footer>
+  Makin' Memories<br>
+  ピットイン 西葛西 ／ 企画・運営 soy@source<br>
+  このイベントは店舗の非公式企画です。
+</footer>
+
+</div>
+
+<script>
+/* ============================================================
+   GASのウェブアプリURL（末尾 /exec）を貼ってください
+   ============================================================ */
+var API = 'https://script.google.com/macros/s/ここにデプロイIDを貼る/exec';
+
+function esc(s){
+  return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+fetch(API + '?api=events')
+  .then(function(r){ return r.json(); })
+  .then(function(res){
+    var box = document.getElementById('shows');
+    if (!res.ok || !res.list || !res.list.length){
+      box.innerHTML = '<div class="show none"><div class="t">記録はまだありません</div></div>';
+      return;
+    }
+    var h = '';
+    res.list.forEach(function(ev){
+      if (ev.url){
+        h += '<a class="show" href="'+esc(ev.url)+'" target="_blank" rel="noopener">' +
+             '<div class="d">'+esc(ev.date)+'</div>' +
+             '<div class="t">'+esc(ev.title)+'</div>' +
+             '<div class="go">写真を見る →</div></a>';
+      } else {
+        h += '<div class="show none">' +
+             '<div class="d">'+esc(ev.date)+'</div>' +
+             '<div class="t">'+esc(ev.title)+'</div>' +
+             '<div class="go">準備中</div></div>';
+      }
+    });
+    box.innerHTML = h;
+  })
+  .catch(function(){
+    document.getElementById('shows').innerHTML =
+      '<div class="show none"><div class="t">読み込めませんでした</div></div>';
+  });
+</script>
+</body>
+</html>
