@@ -146,7 +146,7 @@
 /* ============================================================
    GASのウェブアプリURL（末尾 /exec）を貼ってください
    ============================================================ */
-var API = 'https://script.google.com/macros/s/ここにデプロイIDを貼る/exec';
+var API = 'https://script.google.com/macros/s/AKfycbxDhU1zzjhV_NSFjIFSMZGlxHX4ru6gVluLN0cSelTXUhbZmgr7iD6Pof3TXly5AkjS4g/exec';
 
 function esc(s){
   return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
