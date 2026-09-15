@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Makin' Memories</title>
+<style>
+  :root{--navy:#1A1733;--card:#262148;--gold:#E0B24C;--cream:#F4F0E6;--muted:#A79FC4;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{margin:0;padding:0 18px 48px;background:var(--navy);color:var(--cream);
+    font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;
+    -webkit-text-size-adjust:100%;}
+  header{display:flex;align-items:center;justify-content:space-between;padding:16px 0 8px;}
+  .brand{font-size:13px;letter-spacing:.08em;color:var(--gold);font-weight:700;}
+  .castbtn{font-size:10px;letter-spacing:.1em;color:var(--muted);border:1px solid #3B3566;
+    border-radius:12px;padding:5px 10px;background:none;cursor:pointer;}
+  .hero{text-align:center;padding:22px 0 14px;}
+  .label{font-size:11px;letter-spacing:.18em;color:var(--muted);}
+  .name{font-size:30px;font-weight:700;margin:6px 0 2px;}
+  .reading{font-size:12px;color:var(--muted);}
+  .meta{margin-top:12px;font-size:13px;color:var(--gold);}
+  .today{background:var(--card);border-radius:12px;padding:14px 16px;margin:16px 0;}
+  .today .t{font-size:12px;color:var(--gold);letter-spacing:.1em;}
+  .today .n{font-size:17px;font-weight:700;margin-top:4px;}
+  .today .s{font-size:12px;color:var(--muted);margin-top:4px;}
+  .today .s.done{color:var(--gold);font-weight:700;}
+  h2{font-size:12px;letter-spacing:.16em;color:var(--gold);margin:28px 0 10px;font-weight:700;}
+  .show{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:10px;}
+  .show .d{font-size:11px;color:var(--muted);}
+  .show .ti{font-size:16px;font-weight:700;margin:3px 0 10px;}
+  .album{display:block;text-align:center;text-decoration:none;background:var(--gold);
+    color:var(--navy);font-weight:700;font-size:14px;padding:11px;border-radius:8px;}
+  .pwrow{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .pwrow span{font-size:11px;color:var(--muted);white-space:nowrap;}
+  .pw{flex:1;font-size:15px;font-family:ui-monospace,monospace;background:#171432;
+    color:var(--cream);border:1px solid #3B3566;border-radius:8px;padding:9px 10px;text-align:center;}
+  .expnote{font-size:11px;color:var(--muted);margin-top:8px;}
+  .expired{font-size:13px;color:var(--muted);}
+  .empty{font-size:13px;color:var(--muted);padding:4px 2px;}
+  .center{text-align:center;padding:60px 10px;}
+  .center .big{font-size:22px;font-weight:700;}
+  .center .s{font-size:13px;color:var(--muted);margin-top:12px;line-height:1.8;}
+  .panel{background:var(--card);border-radius:14px;padding:18px 16px;margin-top:16px;}
+  .panel h3{margin:0 0 2px;font-size:15px;}
+  .panel .sub{font-size:11px;color:var(--muted);}
+  .warn{font-size:12px;color:#FF9B9B;margin-top:10px;font-weight:700;}
+  .okmark{font-size:12px;color:var(--muted);margin-top:10px;}
+  input,select,textarea{width:100%;font-size:16px;color:var(--cream);background:#171432;
+    border:1px solid #3B3566;border-radius:8px;padding:12px;margin-top:10px;font-family:inherit;}
+  input.pinbox{text-align:center;letter-spacing:.3em;}
+  button.act{width:100%;font-size:16px;font-weight:700;background:var(--gold);color:var(--navy);
+    border:none;border-radius:8px;padding:15px;margin-top:10px;cursor:pointer;}
+  button.sub2{width:100%;font-size:13px;color:var(--cream);background:none;border:1px solid #3B3566;
+    border-radius:8px;padding:12px;margin-top:8px;cursor:pointer;}
+  button.danger{color:#FFB0B0;border-color:#6B3A4A;}
+  button[disabled]{opacity:.45;}
+  button.ghost{width:100%;font-size:13px;color:var(--muted);background:none;border:none;
+    padding:14px 0 2px;cursor:pointer;}
+  .divider{height:1px;background:#3B3566;margin:16px 0 2px;}
+  .secname{font-size:11px;color:var(--muted);letter-spacing:.1em;margin-top:12px;}
+  .row2{display:flex;gap:8px;}
+  .row2 button{flex:1;}
+  .check{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:13px;}
+  .check input{width:20px;height:20px;accent-color:var(--gold);margin:0;}
+  .backdrop{position:fixed;inset:0;background:rgba(10,8,24,.72);display:none;z-index:50;}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;background:#201C40;
+    border-radius:18px 18px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));
+    display:none;max-height:90vh;overflow-y:auto;}
+  #toast{position:fixed;left:18px;right:18px;bottom:20px;z-index:60;background:var(--gold);
+    color:var(--navy);font-size:14px;font-weight:700;text-align:center;padding:14px;
+    border-radius:10px;display:none;}
+  .arow{background:var(--card);border-radius:10px;padding:12px 14px;margin-top:10px;
+    display:flex;align-items:center;gap:12px;}
+  .arow .no{font-size:15px;font-weight:700;color:var(--gold);min-width:34px;text-align:center;}
+  .arow .info{flex:1;min-width:0;}
+  .arow .owner{font-size:14px;font-weight:700;}
+  .arow .owner.free{color:var(--muted);font-weight:400;}
+  .arow .url{font-size:10px;color:var(--muted);font-family:ui-monospace,monospace;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;}
+  .arow button{font-size:13px;font-weight:700;white-space:nowrap;background:none;color:var(--gold);
+    border:1px solid var(--gold);border-radius:7px;padding:9px 13px;cursor:pointer;}
+  #ta{position:fixed;left:-9999px;top:0;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">MAKIN' MEMORIES</div>
+  <button class="castbtn" id="castbtn" style="display:none" onclick="openSheet()">CAST ONLY</button>
+</header>
+
+<div id="app">
+  <div class="center"><div class="s">読み込んでいます…</div></div>
+</div>
+
+<div class="backdrop" id="backdrop" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet"></div>
+<textarea id="ta" readonly></textarea>
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   設定：GASのウェブアプリURL（末尾 /exec）をここに貼る
+   ============================================================ */
+var API = 'https://script.google.com/macros/s/AKfycbxDhU1zzjhV_NSFjIFSMZGlxHX4ru6gVluLN0cSelTXUhbZmgr7iD6Pof3TXly5AkjS4g/exec';
+
+/* ---------- 共通 ---------- */
+var D = null;          // カード情報
+var UID = '';
+var MODE = '';         // 'card' | 'admin'
+
+function q(name){
+  var m = new RegExp('[?&]' + name + '=([^&]*)').exec(location.search);
+  return m ? decodeURIComponent(m[1]) : '';
+}
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+function toast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  clearTimeout(window._tt);
+  window._tt = setTimeout(function(){ t.style.display='none'; }, 3200);
+}
+function openSheet(){
+  document.getElementById('backdrop').style.display='block';
+  document.getElementById('sheet').style.display='block';
+}
+function closeSheet(){
+  document.getElementById('backdrop').style.display='none';
+  document.getElementById('sheet').style.display='none';
+}
+function pin(){
+  var el = document.getElementById('pin');
+  return el ? el.value : '';
+}
+function busy(on){
+  var bs = document.querySelectorAll('#sheet button, #app button');
+  for (var i=0;i<bs.length;i++) bs[i].disabled = on;
+  if (on) toast('送信中…');
+}
+
+/* ---------- API ---------- */
+function apiGet(params){
+  var qs = Object.keys(params).map(function(k){
+    return encodeURIComponent(k)+'='+encodeURIComponent(params[k]);
+  }).join('&');
+  return fetch(API + '?' + qs, { method:'GET' }).then(function(r){ return r.json(); });
+}
+function apiPost(body){
+  return fetch(API, {
+    method:'POST',
+    headers:{ 'Content-Type':'text/plain;charset=utf-8' },   // preflight回避
+    body: JSON.stringify(body)
+  }).then(function(r){ return r.json(); });
+}
+function post(body, after){
+  if (!pin()) { toast('PINを入力してください'); return; }
+  body.pin = pin();
+  busy(true);
+  apiPost(body).then(function(res){
+    busy(false);
+    toast(res.msg || (res.ok ? '完了しました' : '失敗しました'));
+    if (after) after(res);
+  }).catch(function(){ busy(false); toast('通信に失敗しました'); });
+}
+
+/* ============================================================
+   起動
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', function(){
+  if (q('admin')) { MODE='admin'; renderAdmin(); return; }
+  UID = q('u');
+  if (!UID) { renderInvalid('カードの情報がありません'); return; }
+  MODE = 'card';
+  load();
+});
+
+function load(){
+  apiGet({ api:'card', u:UID }).then(function(res){
+    if (!res.ok) { renderInvalid(); return; }
+    D = res;
+    if (res.state === 'invalid')  { renderInvalid(); return; }
+    if (res.state === 'unlinked') { renderLink(res); return; }
+    renderView(res);
+  }).catch(function(){
+    renderInvalid('通信に失敗しました。電波の良い場所でお試しください。');
+  });
+}
+
+/* ============================================================
+   画面：未登録・失効
+   ============================================================ */
+function renderInvalid(msg){
+  document.getElementById('app').innerHTML =
+    '<div class="center">' +
+      '<div class="big">このカードは読み込めませんでした</div>' +
+      '<div class="s">' + esc(msg || 'カードが未登録か、失効している可能性があります。<br>お手数ですが、スタッフにお声がけください。').replace(/&lt;br&gt;/g,'<br>') + '</div>' +
+    '</div>';
+}
+
+/* ============================================================
+   画面：カード割り当て
+   ============================================================ */
+function renderLink(d){
+  var opts = '<option value="">登録者を選ぶ</option>';
+  (d.candidates||[]).forEach(function(c){
+    opts += '<option value="'+esc(c.id)+'">'+esc(c.name)
+         + (c.reading ? '（'+esc(c.reading)+'）' : '')
+         + (c.hasCard ? '　※カード発行済み' : '') + '</option>';
+  });
+  document.getElementById('app').innerHTML =
+    '<div class="center" style="padding:36px 10px 8px">' +
+      '<div class="big">まだ使われていないカードです</div>' +
+      '<div class="s">このカードはどなたのものでもありません。<br>スタッフにお渡しください。</div>' +
+    '</div>' +
+    '<div class="panel">' +
+      '<h3>CAST ONLY</h3><div class="sub">このカードを登録者に割り当てます</div>' +
+      '<input type="tel" inputmode="numeric" maxlength="8" id="pin" class="pinbox" placeholder="PIN">' +
+      '<select id="member">'+opts+'</select>' +
+      '<label class="check"><input type="checkbox" id="reissue">再発行（前のカードを失効させる）</label>' +
+      '<button class="act" onclick="doLink()">このカードを渡す</button>' +
+    '</div>';
+}
+function doLink(){
+  var m = document.getElementById('member').value;
+  if (!m) { toast('登録者を選んでください'); return; }
+  post({ action:'linkCard', uid:UID, memberId:m,
+         reissue: document.getElementById('reissue').checked },
+       function(res){ if (res.ok) setTimeout(load, 1400); });
+}
+
+/* ============================================================
+   画面：個人ページ
+   ============================================================ */
+function renderView(d){
+  var h = '';
+  h += '<div class="hero">' +
+       '<div class="label">ILLUMINEER</div>' +
+       '<div class="name">'+esc(d.name)+'</div>' +
+       (d.reading ? '<div class="reading">'+esc(d.reading)+'</div>' : '') +
+       '<div class="meta" id="meta">'+esc(d.title)+' ・ '+d.count+'th Show</div></div>';
+
+  if (d.today){
+    h += '<div class="today"><div class="t">本日の公演</div>' +
+         '<div class="n">'+esc(d.today.title)+'</div>' +
+         '<div class="s'+(d.attendedToday?' done':'')+'" id="todayStatus">' +
+         (d.attendedToday ? '受付が完了しました' : '受付がまだです。スタッフにカードをお渡しください') +
+         '</div></div>';
+  }
+
+  h += '<h2>公演の記録</h2>';
+  if (!d.history.length) h += '<div class="empty">まだ記録がありません。今日が最初の公演です。</div>';
+  d.history.forEach(function(ev){
+    h += '<div class="show"><div class="d">'+esc(ev.date)+'</div>' +
+         '<div class="ti">'+esc(ev.title)+'</div>';
+    if (ev.expired){
+      h += '<div class="expired">写真の公開期間が終了しました</div>';
+    } else if (ev.albumUrl){
+      h += '<a class="album" href="'+esc(ev.albumUrl)+'" target="_blank" rel="noopener">写真を見る</a>';
+      if (ev.albumPass){
+        h += '<div class="pwrow"><span>パスワード</span>' +
+             '<input class="pw" readonly value="'+esc(ev.albumPass)+'" ' +
+             'onclick="this.select();this.setSelectionRange(0,99);"></div>';
+      }
+      if (ev.expire) h += '<div class="expnote">公開は '+esc(ev.expire)+' まで</div>';
+    } else {
+      h += '<div class="expired">写真は準備中です</div>';
+    }
+    h += '</div>';
+  });
+
+  document.getElementById('app').innerHTML = h;
+  document.getElementById('castbtn').style.display = 'block';
+  buildCastSheet(d);
+}
+
+function buildCastSheet(d){
+  var warnFace = (String(d.photoFace).indexOf('しない')>=0 || String(d.photoFace).indexOf('NG')>=0);
+  var warnBoard = (String(d.photoBoard).indexOf('不可')>=0 || String(d.photoBoard).indexOf('NG')>=0);
+
+  document.getElementById('sheet').innerHTML =
+    '<h3>CAST ONLY</h3><div class="sub">'+esc(d.name)+' さんのカード</div>' +
+    '<input type="tel" inputmode="numeric" maxlength="8" id="pin" class="pinbox" placeholder="PIN">' +
+    '<button class="act" onclick="doCheckin()">このカードで受付する</button>' +
+    '<div class="row2"><button class="sub2 danger" onclick="doCancel()">受付を取り消す</button></div>' +
+    (warnFace ? '<div class="warn">この方は顔写真の撮影は不可です</div>'
+              : '<div class="okmark">顔写真：プリントのみ（SNS掲載なし）</div>') +
+    (warnBoard ? '<div class="warn">盤面写真のSNS掲載は不可です</div>' : '') +
+    '<div class="divider"></div><div class="secname">カードを忘れた方</div>' +
+    '<button class="sub2" onclick="loadMembers()">名前の一覧を読み込む</button>' +
+    '<select id="memberSel" style="display:none"><option value="">登録者を選ぶ</option></select>' +
+    '<div class="row2" id="memberBtns" style="display:none">' +
+      '<button class="sub2" onclick="doCheckinByName()">受付する</button>' +
+      '<button class="sub2 danger" onclick="doCancelByName()">取り消す</button></div>' +
+    '<div class="divider"></div><div class="secname">本日の公演</div>' +
+    '<button class="sub2" onclick="doOpen()">本日の回を開く</button>' +
+    '<button class="sub2" onclick="doClose()">本日の回を閉じる</button>' +
+    '<button class="ghost" onclick="closeSheet()">閉じる</button>';
+}
+
+function applyResult(res){
+  if (!res.ok) return;
+  if (res.memberId && D && res.memberId === D.memberId){
+    var st = document.getElementById('todayStatus');
+    if (st){
+      st.textContent = res.attended ? '受付が完了しました'
+                                    : '受付がまだです。スタッフにカードをお渡しください';
+      st.className = 's' + (res.attended ? ' done' : '');
+    }
+    var meta = document.getElementById('meta');
+    if (meta && res.title) meta.textContent = res.title + ' ・ ' + res.count + 'th Show';
+  }
+  if (res.reload) setTimeout(load, 1200);
+}
+
+function doCheckin(){ post({action:'checkin', uid:UID}, applyResult); }
+function doCancel(){  post({action:'cancelCheckin', memberId:D.memberId}, applyResult); }
+function doOpen(){    post({action:'openToday', title:''}, applyResult); }
+function doClose(){   post({action:'closeToday'}, applyResult); }
+
+function loadMembers(){
+  post({action:'listMembers'}, function(res){
+    if (!res.ok) return;
+    var sel = document.getElementById('memberSel');
+    sel.innerHTML = '<option value="">登録者を選ぶ</option>';
+    res.list.forEach(function(m){
+      var o = document.createElement('option');
+      o.value = m.id;
+      o.textContent = m.name + (m.attended ? '（受付済み）' : '');
+      sel.appendChild(o);
+    });
+    sel.style.display = 'block';
+    document.getElementById('memberBtns').style.display = 'flex';
+  });
+}
+function selMember(){
+  var v = document.getElementById('memberSel').value;
+  if (!v) { toast('登録者を選んでください'); return null; }
+  return v;
+}
+function doCheckinByName(){ var m=selMember(); if(m) post({action:'checkinByMember', memberId:m}, applyResult); }
+function doCancelByName(){  var m=selMember(); if(m) post({action:'cancelCheckin',   memberId:m}, applyResult); }
+
+/* ============================================================
+   画面：管理ページ  ?admin=1
+   ============================================================ */
+function renderAdmin(){
+  document.getElementById('app').innerHTML =
+    '<h2 style="margin-top:20px">カードURL一覧</h2>' +
+    '<div class="empty">タップでコピーして、NFC Tools に貼り付けてください。</div>' +
+    '<input type="tel" inputmode="numeric" maxlength="8" id="pin" class="pinbox" placeholder="PIN">' +
+    '<button class="act" onclick="loadCards()">表示</button>' +
+    '<div id="list"></div>';
+}
+function loadCards(){
+  post({action:'adminCards'}, function(res){
+    if (!res.ok) return;
+    var box = document.getElementById('list');
+    box.innerHTML = '';
+    var shown = 0;
+    res.list.forEach(function(c){
+      if (c.written) return;
+      shown++;
+      var row = document.createElement('div');
+      row.className = 'arow';
+      row.innerHTML =
+        '<div class="no">'+c.no+'</div>' +
+        '<div class="info"><div class="owner'+(c.owner?'':' free')+'">' +
+        esc(c.owner || '未割当')+'</div><div class="url">'+esc(c.url)+'</div></div>';
+      var btn = document.createElement('button');
+      btn.textContent = 'コピー';
+      btn.onclick = function(){ copyText(c.url, btn, row); };
+      row.appendChild(btn);
+      box.appendChild(row);
+    });
+    if (!shown) box.innerHTML = '<div class="empty">未書き込みのカードはありません。</div>';
+  });
+}
+function copyText(text, btn, row){
+  var ta = document.getElementById('ta');
+  ta.value = text; ta.style.left='0'; ta.focus(); ta.setSelectionRange(0, text.length);
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
+  ta.style.left = '-9999px';
+  if (ok){ toast('コピーしました'); row.style.display='none'; }
+  else   { toast('コピーできませんでした。URLを長押しして選択してください'); }
+}
+</script>
+</body>
+</html>
