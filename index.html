@@ -102,7 +102,7 @@
 /* ============================================================
    設定：GASのウェブアプリURL（末尾 /exec）をここに貼る
    ============================================================ */
-var API = 'https://script.google.com/macros/s/AKfycbxDhU1zzjhV_NSFjIFSMZGlxHX4ru6gVluLN0cSelTXUhbZmgr7iD6Pof3TXly5AkjS4g/exec';
+var API = 'https://script.google.com/macros/s/ここにデプロイIDを貼る/exec';
 
 /* ---------- 共通 ---------- */
 var D = null;          // カード情報
@@ -372,21 +372,39 @@ function loadCards(){
         esc(c.owner || '未割当')+'</div><div class="url">'+esc(c.url)+'</div></div>';
       var btn = document.createElement('button');
       btn.textContent = 'コピー';
-      btn.onclick = function(){ copyText(c.url, btn, row); };
+      btn.onclick = function(){ copyText(c.url, c.uid, btn, row); };
       row.appendChild(btn);
       box.appendChild(row);
     });
     if (!shown) box.innerHTML = '<div class="empty">未書き込みのカードはありません。</div>';
   });
 }
-function copyText(text, btn, row){
+function copyText(text, uid, btn, row){
   var ta = document.getElementById('ta');
   ta.value = text; ta.style.left='0'; ta.focus(); ta.setSelectionRange(0, text.length);
   var ok = false;
   try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
   ta.style.left = '-9999px';
-  if (ok){ toast('コピーしました'); row.style.display='none'; }
-  else   { toast('コピーできませんでした。URLを長押しして選択してください'); }
+
+  if (!ok){ toast('コピーできませんでした。URLを長押しして選択してください'); return; }
+
+  // コピーできたら「書き込み済み」として記録し、一覧から消す
+  btn.textContent = '記録中';
+  btn.disabled = true;
+  apiPost({ action:'markWritten', uid:uid, pin:pin() }).then(function(res){
+    if (res.ok){
+      toast('コピーしました（書き込み済みにしました）');
+      row.style.display = 'none';
+    } else {
+      btn.textContent = 'コピー';
+      btn.disabled = false;
+      toast(res.msg || '記録できませんでした');
+    }
+  }).catch(function(){
+    btn.textContent = 'コピー';
+    btn.disabled = false;
+    toast('コピーはできましたが、記録に失敗しました');
+  });
 }
 </script>
 </body>
