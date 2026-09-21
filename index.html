@@ -82,6 +82,9 @@
     border:1px solid var(--gold);border-radius:7px;padding:8px 12px;cursor:pointer;}
   .arow button.done{color:var(--muted);border-color:#3B3566;}
   #ta{position:fixed;left:-9999px;top:0;}
+  .notice{border:1px solid var(--gold);border-radius:12px;padding:12px 16px;
+    margin:10px 0 0;font-size:14px;text-align:center;}
+  .notice b{color:var(--gold);font-size:11px;letter-spacing:.16em;display:block;margin-bottom:2px;}
 </style>
 </head>
 <body>
@@ -239,6 +242,9 @@ function doLink(){
    ============================================================ */
 function renderView(d){
   var h = '';
+  if (d.notice){
+    h += '<div class="notice"><b>お知らせ</b>' + esc(d.notice) + '</div>';
+  }
   h += '<div class="hero">' +
        '<div class="label">ILLUMINEER</div>' +
        '<div class="name">'+esc(d.name)+'</div>' +
