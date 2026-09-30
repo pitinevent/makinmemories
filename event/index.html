@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Makin' Memories ｜ ディズニーロルカナ イベント</title>
-<meta name="description" content="毎週水曜、西葛西のピットインで開催しているディズニーロルカナのカジュアルイベントです。勝敗を記録しません。">
+<meta property="og:title" content="Makin' Memories ｜ ディズニーロルカナ イベント">
+<meta property="og:description" content="毎週水曜14時〜、ピットイン。勝敗を記録しない、ディズニーロルカナの対戦イベントです。参加無料・予約不要。">
+<meta property="og:image" content="https://pitinevent.github.io/makinmemories/logo.png">
+<meta property="og:url" content="https://pitinevent.github.io/makinmemories/event/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="毎週水曜、ピットインで開催しているディズニーロルカナの対戦イベントです。勝敗を記録しません。">
 <style>
   :root{--navy:#1A1733;--card:#262148;--gold:#E0B24C;--cream:#F4F0E6;--muted:#A79FC4;--line:#3B3566;}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -20,12 +26,17 @@
   .hero img{max-width:280px;width:78%;height:auto;}
   .hero .fallback{font-size:34px;font-weight:700;font-style:italic;color:var(--gold);}
   .hero .copy{font-size:16px;color:var(--cream);margin-top:18px;font-style:italic;}
-  .hero .sub{font-size:12px;color:var(--muted);letter-spacing:.14em;margin-top:10px;}
+  .hero .sub{display:inline-flex;align-items:center;gap:10px;margin-top:16px;
+    padding:7px 18px;border:1px solid var(--gold);border-radius:3px;
+    font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.18em;}
+  .hero .sub::before,.hero .sub::after{content:"✦";font-size:10px;letter-spacing:0;}
 
   .rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px 0;}
   .rule i{display:block;width:56px;height:1px;background:var(--line);}
   .rule span{color:var(--gold);font-size:13px;}
 
+  .lead{text-align:center;font-size:15px;font-weight:700;color:var(--cream);
+    line-height:1.9;margin:-6px 0 4px;}
   .poem{text-align:center;font-size:15px;color:var(--cream);line-height:2.2;padding:6px 0 10px;}
 
   h2{font-size:12px;letter-spacing:.18em;color:var(--gold);font-weight:700;
@@ -86,6 +97,12 @@
 
 <div class="rule"><i></i><span>✦</span><i></i></div>
 
+<div class="lead">
+  毎週水曜の午後、ここは小さな劇場になります。<br>
+  演目は、ディズニーロルカナ。<br>
+  主演は、あなたです。
+</div>
+
 <div class="poem">
   好きなキャラクターを輝かせる場所。<br>
   誰かが目を見張ったら、どうぞ拍手を送ってください。<br>
@@ -95,23 +112,32 @@
 <h2>開催情報</h2>
 <div class="info">
   <dl>
+    <dt>内容</dt><dd>ディズニーロルカナの対戦イベントです</dd>
     <dt>日時</dt><dd>毎週水曜 14:00 - 17:00</dd>
-    <dt>場所</dt><dd>ピットイン 西葛西</dd>
+    <dt>場所</dt><dd>ピットイン</dd>
     <dt>参加費</dt><dd>無料</dd>
     <dt>予約</dt><dd>不要。途中参加・途中退出も自由です</dd>
     <dt>持ち物</dt><dd>デッキ（お持ちでない方はご相談ください）</dd>
   </dl>
 </div>
 
+<h2>はじめての方へ</h2>
+<div class="note">
+  <p>ルールをご存じなくても、その場でお伝えします。</p>
+  <p>デッキをお持ちでなくても、お貸しできます（数に限りがあります）。</p>
+  <p>見学だけでも、30分だけでも大丈夫です。</p>
+  <p>着いたら、店員に<em>「Makin' Memoriesに来ました」</em>とお声がけください。</p>
+</div>
+
 <h2>この場について</h2>
 <div class="three">
   <div class="item">
     <h3>順位表はありません</h3>
-    <p>勝敗を記録しません。ラウンド制でも時間制でもないので、好きなペースで遊べます。その日まだ対戦していない方と、ゆっくりどうぞ。</p>
+    <p>勝敗を記録しません。ラウンド制でも時間制でもないので、好きなペースで遊べます。その日まだ一緒に遊んでいない方と、ゆっくりどうぞ。</p>
   </div>
   <div class="item">
     <h3>かわりに、拍手があります</h3>
-    <p>相手のデッキやプレイに「いいな」と思ったら、そのまま伝えてください。対戦のあとには、良かったところをひとつだけ。アドバイスは、聞かれたときにお願いします。</p>
+    <p>相手のデッキやプレイに「いいな」と思ったら、そのまま伝えてください。一局が終わったら、良かったところをひとつだけ。アドバイスは、聞かれたときにお願いします。</p>
   </div>
   <div class="item">
     <h3>写真が残ります</h3>
@@ -121,15 +147,15 @@
 
 <h2>参加の流れ</h2>
 <ol class="steps">
-  <li><b>ご登録</b><br>はじめての方は、店員にお声がけください。お名前や連絡先は伺いません。呼び名だけご登録ください。</li>
+  <li><b>ご登録</b><br>はじめての方は、店頭のカードをかざすか、QRコードから。お名前や連絡先は伺いません。呼び名だけご登録ください。</li>
   <li><b>チケットをお渡しします</b><br>受付用のカードです。2回目からは、これをかざすだけで受付できます。</li>
-  <li><b>対戦とアプローズ</b><br>好きなキャラクターのデッキで、好きなように。いいと思ったら、そう伝えてください。</li>
+  <li><b>遊んで、拍手を</b><br>好きなキャラクターのデッキで、ゆっくりと。いいと思ったら、そう伝えてください。</li>
   <li><b>写真をお渡しします</b><br>撮った写真は、後日こちらのページからもご覧いただけます。</li>
 </ol>
 
 <h2>写真について</h2>
 <div class="note">
-  <p>撮影するのは<em>卓の上だけ</em>です。</p>
+  <p>撮影するのは<em>卓の上だけ</em>です。商品棚や店内の様子は写しません。</p>
   <p>お顔の写真は、撮影をご希望の方のみ。<em>その場でプリントしてお渡しするだけで、インターネットには一切掲載しません。</em></p>
   <p>盤面やグッズの写真は、掲載をご了承いただいた方のぶんのみ、下記のアルバムで公開しています。掲載をご希望されない場合は、いつでもお申し付けください。</p>
 </div>
@@ -141,7 +167,7 @@
 
 <footer>
   Makin' Memories<br>
-  ピットイン 西葛西<br>
+  ピットイン<br>
   このイベントは店舗の非公式企画です。
 </footer>
 
