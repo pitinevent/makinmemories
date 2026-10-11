@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>予告編 ｜ Makin' Memories</title>
+<meta property="og:title" content="予告編 ｜ Makin' Memories">
+<meta property="og:description" content="毎週水曜の午後、ここは小さな劇場になります。演目は、ディズニーロルカナ。主演は、あなたです。">
+<meta property="og:image" content="https://pitinevent.github.io/makinmemories/logo.png">
+<meta property="og:url" content="https://pitinevent.github.io/makinmemories/event/trailer.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0a10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#E0B24C;--cream:#F1E8D2;--ink:#0b0a10;--plum:#2C2748;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;background:var(--ink);overflow:hidden;}
+  body{color:var(--cream);font-family:"Noto Serif JP","Hiragino Mincho ProN",serif;
+    -webkit-text-size-adjust:100%;user-select:none;-webkit-user-select:none;}
+
+  /* スクリーン全体。わずかに揺れる（映写機のガタつき） */
+  #screen{position:fixed;inset:0;overflow:hidden;animation:weave 4.2s steps(1) infinite;}
+  @keyframes weave{
+    0%{transform:translate(0,0)}12%{transform:translate(0,-1px)}24%{transform:translate(1px,0)}
+    36%{transform:translate(0,1px)}48%{transform:translate(-1px,0)}60%{transform:translate(0,0)}
+    72%{transform:translate(0,-1px)}84%{transform:translate(1px,1px)}
+  }
+
+  .scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    opacity:0;visibility:hidden;transition:opacity .9s ease;}
+  .scene.on{opacity:1;visibility:visible;}
+  .scene.iris{clip-path:circle(0% at 50% 50%);transition:clip-path 1.1s ease,opacity .2s;}
+  .scene.iris.on{clip-path:circle(75% at 50% 50%);}
+
+  /* ---- カウントダウン ---- */
+  .leader{background:#cfc6b1;color:#1b1814;}
+  .leader .ring{position:relative;width:min(70vw,62vh);aspect-ratio:1;}
+  .leader .sweep{position:absolute;inset:0;border-radius:50%;
+    background:conic-gradient(rgba(0,0,0,.28) var(--a,0deg),transparent 0);}
+  .leader svg{position:absolute;inset:0;width:100%;height:100%;}
+  .leader .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:"Limelight",serif;font-size:min(40vw,34vh);line-height:1;}
+
+  /* ---- 字幕カード（アールデコ） ---- */
+  .card{width:min(86vw,560px);aspect-ratio:4/3;position:relative;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:8% 6%;background:radial-gradient(ellipse at center,#1d1a2c 0%,#0e0c15 75%);}
+  .card::before,.card::after{content:"";position:absolute;pointer-events:none;}
+  .card::before{inset:10px;border:1px solid rgba(224,178,76,.75);}
+  .card::after{inset:16px;border:1px solid rgba(224,178,76,.35);}
+  .card .fan{position:absolute;width:34px;height:34px;fill:none;stroke:var(--gold);stroke-width:1;opacity:.85;}
+  .card .fan.tl{top:20px;left:20px;}
+  .card .fan.tr{top:20px;right:20px;transform:scaleX(-1);}
+  .card .fan.bl{bottom:20px;left:20px;transform:scaleY(-1);}
+  .card .fan.br{bottom:20px;right:20px;transform:scale(-1,-1);}
+  .card p{margin:0;font-size:clamp(15px,4.3vw,25px);line-height:2;letter-spacing:.05em;font-weight:500;}
+  .card p.small{font-size:clamp(13px,3.6vw,17px);opacity:.8;}
+  .card .orn{color:var(--gold);font-size:12px;letter-spacing:.6em;margin:10px 0;opacity:.9;}
+  .card .line{display:block;white-space:nowrap;opacity:0;transform:translateY(6px);
+    transition:opacity 1s ease,transform 1s ease;}
+  .scene.on .card .line{opacity:1;transform:none;}
+  .scene.on .card .line:nth-child(2){transition-delay:.7s;}
+  .scene.on .card .line:nth-child(3){transition-delay:1.4s;}
+
+  /* ---- タイトル ---- */
+  .title{text-align:center;}
+  .title .pre{font-family:"Limelight",serif;color:var(--gold);letter-spacing:.5em;font-size:12px;margin-bottom:18px;}
+  .title h1{margin:0;font-family:"Limelight",serif;font-weight:400;color:var(--gold);
+    font-size:clamp(38px,12vw,84px);line-height:1.05;letter-spacing:.04em;
+    text-shadow:0 0 18px rgba(224,178,76,.35);}
+  .title .post{font-family:"Limelight",serif;letter-spacing:.5em;font-size:12px;margin-top:20px;opacity:.85;}
+  .scene.on .title h1{animation:glow 3s ease-in-out infinite;}
+  @keyframes glow{50%{text-shadow:0 0 28px rgba(224,178,76,.6);}}
+
+  /* ---- 写真（ケン・バーンズ） ---- */
+  .photo{background:#000;}
+  .photo .bg{position:absolute;inset:-40px;background-size:cover;background-position:center;
+    filter:blur(26px) brightness(.35) sepia(.6);}
+  .photo .frame{position:relative;width:min(94vw,820px);aspect-ratio:4/3;overflow:hidden;
+    box-shadow:0 0 0 1px rgba(224,178,76,.35),0 20px 60px rgba(0,0,0,.6);}
+  .photo .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:sepia(.45) contrast(1.08) brightness(.95) saturate(.8);}
+  .photo .cap{position:absolute;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom));
+    text-align:center;font-size:12px;letter-spacing:.3em;color:var(--gold);opacity:.8;}
+  .scene.on .kb-in  img{animation:kbIn  var(--d,6s) linear forwards;}
+  .scene.on .kb-out img{animation:kbOut var(--d,6s) linear forwards;}
+  .scene.on .kb-l   img{animation:kbL   var(--d,6s) linear forwards;}
+  @keyframes kbIn {from{transform:scale(1.02)}to{transform:scale(1.16) translate(1%,-1%)}}
+  @keyframes kbOut{from{transform:scale(1.18) translate(-1%,1%)}to{transform:scale(1.03)}}
+  @keyframes kbL  {from{transform:scale(1.14) translate(3%,0)}to{transform:scale(1.14) translate(-3%,0)}}
+
+  /* ---- ロゴ ---- */
+  .logo{flex-direction:column;text-align:center;}
+  .logo img{width:min(64vw,320px);height:auto;filter:drop-shadow(0 0 22px rgba(224,178,76,.25));
+    opacity:0;transform:scale(.94);transition:opacity 1.6s ease,transform 3s ease;}
+  .scene.on.logo img{opacity:1;transform:scale(1);}
+  .logo .fallback{font-family:"Limelight",serif;color:var(--gold);font-size:clamp(36px,11vw,70px);}
+  .logo .copy{margin-top:22px;font-size:clamp(15px,4.4vw,20px);letter-spacing:.12em;
+    opacity:0;transition:opacity 1.4s ease 1.4s;}
+  .logo .star{margin-top:14px;font-family:"Limelight",serif;color:var(--gold);
+    letter-spacing:.55em;font-size:13px;opacity:0;transition:opacity 1.4s ease 2.4s;}
+  .scene.on.logo .copy,.scene.on.logo .star{opacity:1;}
+
+  /* ---- 開催情報 ---- */
+  .info{flex-direction:column;text-align:center;}
+  .info .plaque{display:inline-flex;align-items:center;gap:10px;padding:7px 18px;
+    border:1px solid var(--gold);color:var(--gold);font-size:14px;font-weight:700;letter-spacing:.18em;}
+  .info .plaque::before,.info .plaque::after{content:"✦";font-size:10px;letter-spacing:0;}
+  .info .when{font-family:"Limelight",serif;font-size:clamp(24px,7vw,40px);margin-top:26px;letter-spacing:.06em;}
+  .info .day{font-size:clamp(17px,5vw,22px);margin-top:4px;letter-spacing:.2em;}
+  .info .where{font-size:clamp(16px,4.6vw,20px);margin-top:20px;letter-spacing:.2em;}
+  .info .free{font-size:13px;margin-top:10px;opacity:.8;letter-spacing:.18em;}
+
+  .endscene{background:radial-gradient(ellipse at 50% 42%,#3a3160 0%,#221d3d 45%,#0f0d1a 100%);flex-direction:column;}
+  .end{font-family:"Limelight",serif;color:var(--gold);font-size:clamp(34px,10vw,64px);letter-spacing:.2em;
+    text-shadow:0 0 24px rgba(224,178,76,.45);margin-bottom:22vh;text-align:center;padding-left:.2em;}
+  .end small{display:block;margin-top:14px;font-size:12px;letter-spacing:.5em;padding-left:.5em;margin-left:-.2em;color:var(--cream);opacity:.7;text-shadow:none;}
+  .dust{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+  .dust i{position:absolute;bottom:-10px;width:3px;height:3px;border-radius:50%;
+    background:rgba(240,200,110,.85);box-shadow:0 0 8px rgba(240,200,110,.8);
+    opacity:0;animation:rise linear infinite;}
+  @keyframes rise{0%{transform:translateY(0);opacity:0}15%{opacity:.9}85%{opacity:.6}100%{transform:translateY(-100vh);opacity:0}}
+
+  /* ---- フィルムの質感 ---- */
+  #grain{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:.10;mix-blend-mode:soft-light;transition:opacity 1.6s ease;}
+  #flicker{position:fixed;inset:0;pointer-events:none;background:#ffe9b8;opacity:0;mix-blend-mode:soft-light;}
+  #vignette{position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 60%,rgba(20,12,4,.55) 100%);}
+  #scratches{position:fixed;inset:0;pointer-events:none;transition:opacity 1s ease;}
+  body.ended #grain,body.ended #scratches{opacity:0;}
+  #scratches i{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,236,190,.22);}
+
+  /* ---- 操作 ---- */
+  #ui{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:space-between;
+    align-items:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    font-size:12px;letter-spacing:.14em;pointer-events:none;}
+  #ui a,#ui button{pointer-events:auto;color:var(--cream);opacity:.6;text-decoration:none;
+    background:none;border:none;font:inherit;letter-spacing:inherit;padding:6px 2px;cursor:pointer;}
+  #hint{opacity:.45;}
+  #endUI{position:fixed;left:0;right:0;bottom:calc(64px + env(safe-area-inset-bottom));z-index:21;
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+    opacity:0;pointer-events:none;transition:opacity 1s ease;}
+  #endUI.on{opacity:1;pointer-events:auto;}
+  #endUI a,#endUI button{min-width:220px;text-align:center;font:inherit;font-size:14px;letter-spacing:.14em;
+    padding:12px 20px;border:1px solid var(--gold);color:var(--gold);background:rgba(11,10,16,.6);
+    text-decoration:none;cursor:pointer;}
+  #endUI a{background:var(--gold);color:#1A1733;font-weight:700;}
+
+  /* 開始前の幕 */
+  #curtain{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;background:radial-gradient(ellipse at center,#2C2748 0%,#0b0a10 80%);
+    cursor:pointer;transition:opacity .8s ease;}
+  #curtain.gone{opacity:0;pointer-events:none;}
+  #curtain .k{font-family:"Limelight",serif;color:var(--gold);letter-spacing:.5em;font-size:12px;}
+  #curtain .play{margin-top:22px;width:84px;height:84px;border-radius:50%;border:1px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;animation:pulse 2.4s ease-in-out infinite;}
+  #curtain .play::after{content:"";margin-left:6px;border-left:20px solid var(--gold);
+    border-top:12px solid transparent;border-bottom:12px solid transparent;}
+  #curtain .t{margin-top:20px;font-size:15px;letter-spacing:.3em;}
+  #curtain .s{margin-top:8px;font-size:11px;opacity:.55;letter-spacing:.16em;}
+  #curtain .silent{margin-top:26px;background:none;border:none;border-bottom:1px solid rgba(241,232,210,.35);
+    color:var(--cream);opacity:.6;font:inherit;font-size:12px;letter-spacing:.16em;padding:4px 2px;cursor:pointer;}
+  @keyframes pulse{50%{box-shadow:0 0 0 10px rgba(224,178,76,.12);}}
+
+  @media (prefers-reduced-motion:reduce){
+    #screen{animation:none;}
+    .scene.on img{animation:none !important;}
+    #grain,#scratches{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div id="screen">
+
+  <section class="scene leader" data-type="leader" data-d="3300">
+    <div class="ring">
+      <div class="sweep" id="sweep"></div>
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#1b1814" stroke-width=".8"/>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#1b1814" stroke-width=".8"/>
+        <line x1="50" y1="0" x2="50" y2="100" stroke="#1b1814" stroke-width=".5"/>
+        <line x1="0" y1="50" x2="100" y2="50" stroke="#1b1814" stroke-width=".5"/>
+      </svg>
+      <div class="num" id="num">3</div>
+    </div>
+  </section>
+
+  <section class="scene" data-d="4200">
+    <div class="title">
+      <div class="pre">PITIN PRESENTS</div>
+      <h1>Makin'<br>Memories</h1>
+      <div class="post">A WEDNESDAY SHOW</div>
+    </div>
+  </section>
+
+  <section class="scene" data-d="5600">
+    <div class="card">
+      <svg class="fan tl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan tr" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan bl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan br" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <p><span class="line">毎週水曜の午後、</span><span class="line">ここは小さな劇場になります。</span></p>
+    </div>
+  </section>
+
+  <section class="scene" data-d="4600">
+    <div class="card">
+      <svg class="fan tl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan tr" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan bl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan br" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <p class="small"><span class="line">演目は</span></p>
+      <div class="orn">✦ ✦ ✦</div>
+      <p><span class="line">ディズニーロルカナ。</span></p>
+    </div>
+  </section>
+
+  <section class="scene photo" data-d="5200">
+    <div class="bg" style="background-image:url(p3.jpg)"></div>
+    <div class="frame kb-in"><img src="p3.jpg" alt="卓の上に広げられたカード"></div>
+    <div class="cap">TODAY'S CAST</div>
+  </section>
+
+  <section class="scene" data-d="4400">
+    <div class="card">
+      <svg class="fan tl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan tr" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan bl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan br" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <p><span class="line">主演は、あなたです。</span></p>
+    </div>
+  </section>
+
+  <section class="scene photo" data-d="5200">
+    <div class="bg" style="background-image:url(p4.jpg)"></div>
+    <div class="frame kb-l"><img src="p4.jpg" alt="ある日の盤面"></div>
+    <div class="cap">A WEDNESDAY AFTERNOON</div>
+  </section>
+
+  <section class="scene" data-d="5600">
+    <div class="card">
+      <svg class="fan tl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan tr" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan bl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan br" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <p><span class="line">誰かが目を見張ったら、</span><span class="line">どうぞ拍手を。</span></p>
+    </div>
+  </section>
+
+  <section class="scene photo" data-d="5200">
+    <div class="bg" style="background-image:url(p2.jpg)"></div>
+    <div class="frame kb-out"><img src="p2.jpg" alt="ロゴを添えたプリント用の一枚"></div>
+    <div class="cap">ONE SCENE</div>
+  </section>
+
+  <section class="scene" data-d="4800">
+    <div class="card">
+      <svg class="fan tl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan tr" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan bl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan br" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <p><span class="line">その一場面は思い出になり、</span></p>
+    </div>
+  </section>
+
+  <section class="scene photo" data-d="6400">
+    <div class="bg" style="background-image:url(p1.jpg)"></div>
+    <div class="frame kb-in" style="--d:6.4s"><img src="p1.jpg" alt="盤面の上に置かれたプリント写真"></div>
+  </section>
+
+  <section class="scene" data-d="4600">
+    <div class="card">
+      <svg class="fan tl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan tr" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan bl" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <svg class="fan br" viewBox="0 0 34 34"><path d="M1 33V1h32M1 22A21 21 0 0 1 22 1M1 13A12 12 0 0 1 13 1M1 1l14 14"/></svg>
+      <p><span class="line">あなたの手に残ります。</span></p>
+    </div>
+  </section>
+
+  <section class="scene logo iris" data-d="6200">
+    <img src="../logo.png" alt="Makin' Memories"
+         onerror="this.outerHTML='&lt;div class=&quot;fallback&quot;&gt;Makin&#39; Memories&lt;/div&gt;'">
+    <div class="copy">あなたのショーを魅せてください</div>
+    <div class="star">STARRING YOU</div>
+  </section>
+
+  <section class="scene info" data-d="6000">
+    <div class="plaque">ディズニーロルカナ イベント</div>
+    <div class="when">14:00 – 17:00</div>
+    <div class="day">毎週水曜</div>
+    <div class="where">ピットイン</div>
+    <div class="free">参加無料 ・ 予約不要</div>
+  </section>
+
+  <section class="scene endscene" data-d="0" data-last="1">
+    <div class="dust" id="dust"></div>
+    <div class="end">THE END<small>SEE YOU ON WEDNESDAY</small></div>
+  </section>
+
+</div>
+
+<canvas id="grain"></canvas>
+<div id="scratches"></div>
+<div id="flicker"></div>
+<div id="vignette"></div>
+
+<div id="ui">
+  <a href="./">← 案内へ</a>
+  <button type="button" id="mute">♪ 音を消す</button>
+  <span id="hint">タップで次へ</span>
+</div>
+
+<div id="endUI">
+  <a href="./">イベントのご案内へ</a>
+  <button type="button" id="again">もう一度上映</button>
+</div>
+
+<div id="curtain">
+  <div class="k">NOW SHOWING</div>
+  <div class="play" aria-hidden="true"></div>
+  <div class="t">予告編を上映する</div>
+  <div class="s">約70秒 ・ ピアノの音が流れます</div>
+  <button type="button" id="silent" class="silent">音なしで観る</button>
+</div>
+
+<script>
+(function(){
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var idx = -1, timer = null, running = false;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 写真を先に読み込んでおく */
+  ['p1.jpg','p2.jpg','p3.jpg','p4.jpg','../logo.png'].forEach(function(s){ var i=new Image(); i.src=s; });
+
+  function show(n){
+    clearTimeout(timer);
+    if (idx >= 0) scenes[idx].classList.remove('on');
+    idx = n;
+    var sc = scenes[idx];
+    // アニメーションを毎回最初から
+    void sc.offsetWidth;
+    sc.classList.add('on');
+    blink();
+    document.body.classList.toggle('film', sc.classList.contains('photo'));
+    if (sc.dataset.type === 'leader') countdown();
+    if (sc.dataset.last) { document.body.classList.add('ended'); makeDust(); Music.finish();
+      document.getElementById('endUI').classList.add('on');
+      document.getElementById('hint').style.visibility='hidden'; running=false; return; }
+    timer = setTimeout(next, Number(sc.dataset.d) || 4000);
+  }
+  function next(){ if (idx < scenes.length - 1) show(idx + 1); }
+
+  /* カウントダウン 3 → 2 → 1 */
+  var cdTimer = null;
+  function countdown(){
+    var num = document.getElementById('num'), sweep = document.getElementById('sweep');
+    var n = 3, start = performance.now();
+    num.textContent = n;
+    cancelAnimationFrame(cdTimer);
+    (function tick(t){
+      var e = (t - start) / 1000;
+      var cur = 3 - Math.floor(e);
+      if (cur < 1) return;
+      if (cur !== n){ n = cur; num.textContent = n; }
+      sweep.style.setProperty('--a', ((e % 1) * 360) + 'deg');
+      cdTimer = requestAnimationFrame(tick);
+    })(start);
+  }
+
+  /* 場面転換のチラつき */
+  function blink(){
+    if (reduce) return;
+    var f = document.getElementById('flicker');
+    f.style.transition='none'; f.style.opacity='.18';
+    requestAnimationFrame(function(){ f.style.transition='opacity .25s'; f.style.opacity='0'; });
+  }
+
+  function makeDust(){
+    var box = document.getElementById('dust'); if (box.childNodes.length || reduce) return;
+    for (var i=0;i<18;i++){
+      var d = document.createElement('i');
+      d.style.left = (Math.random()*100)+'%';
+      d.style.animationDuration = (9+Math.random()*8).toFixed(1)+'s';
+      d.style.animationDelay = (-Math.random()*12).toFixed(1)+'s';
+      var z = (1.5+Math.random()*2.5).toFixed(1)+'px'; d.style.width=z; d.style.height=z;
+      box.appendChild(d);
+    }
+  }
+
+  /* ---- 1920年代風のラグタイム・ピアノ（その場で音を合成。音源ファイルは使いません）
+     オリジナルの16小節。終わりと頭がつながっていて、切れ目なく繰り返します ---- */
+  var Music = (function(){
+    var ac = null, master = null, wave = null, on = true;
+    var S16 = 60/96/4;              // 16分音符の長さ（四分音符 = 96）
+    var BAR = S16*8;                // 2/4拍子
+    var LOOP = BAR*16;
+
+    // 和音 [ベース, 裏のベース, 中音域の和音]
+    var CH = {
+      C:[36,43,[55,60,64]],  A7:[45,40,[55,61,64]], Dm:[38,45,[57,62,65]],
+      G7:[43,38,[53,59,62]], C7:[36,43,[55,58,64]], F:[41,36,[57,60,65]],
+      Fd:[42,45,[57,60,63]], CG:[43,36,[55,60,64]], D7:[38,45,[54,60,62]]
+    };
+    var PROG = ['C','A7','Dm','G7','C','C7','F','Fd','CG','A7','D7','G7','F','Fd',['CG','G7'],'C'];
+    // 右手 [16分の位置, 音, 長さ]
+    var MEL = [
+      [[0,76,1],[1,79,2],[3,76,1],[4,84,2],[6,79,2]],
+      [[0,79,1],[1,81,2],[3,79,1],[4,76,2],[6,73,2]],
+      [[0,74,1],[1,77,2],[3,81,1],[4,86,3],[7,84,1]],
+      [[0,83,2],[2,81,1],[3,79,2],[5,77,1],[6,74,2]],
+      [[0,76,1],[1,79,2],[3,76,1],[4,84,2],[6,79,2]],
+      [[0,76,1],[1,79,2],[3,82,1],[4,84,2],[6,82,2]],
+      [[0,81,1],[1,84,2],[3,81,1],[4,77,2],[6,81,2]],
+      [[0,78,1],[1,81,2],[3,84,1],[4,87,2],[6,84,2]],
+      [[0,79,1],[1,76,2],[3,72,1],[4,79,2],[6,76,2]],
+      [[0,76,1],[1,79,1],[2,81,1],[3,85,2],[5,81,1],[6,79,2]],
+      [[0,78,1],[1,81,2],[3,84,1],[4,86,2],[6,81,2]],
+      [[0,83,1],[1,86,2],[3,83,1],[4,79,1],[5,77,1],[6,74,2]],
+      [[0,81,1],[1,84,2],[3,81,1],[4,77,2],[6,81,2]],
+      [[0,81,1],[1,84,2],[3,87,1],[4,84,2],[6,81,2]],
+      [[0,79,2],[2,76,2],[4,74,1],[5,77,1],[6,83,2]],
+      [[0,84,3],[3,79,1],[4,76,2],[6,74,1],[7,75,1]]
+    ];
+
+    // 1ループ分の音を [時刻, 音, 強さ, 長さ] の一覧にしておく
+    var EV = [];
+    PROG.forEach(function(name, b){
+      var t0 = b*BAR;
+      var halves = (typeof name === 'string') ? [name,name] : name;
+      [0,1].forEach(function(h){
+        var c = CH[halves[h]], th = t0 + h*S16*4;
+        var bass = h===0 ? c[0] : c[1];
+        EV.push([th, bass, .55, S16*1.8]); EV.push([th, bass+12, .35, S16*1.8]);   // ズン
+        c[2].forEach(function(n){ EV.push([th+S16*2, n, .22, S16*1.2]); });        // チャッ
+      });
+      MEL[b].forEach(function(m){
+        var t = t0 + m[0]*S16, len = m[2]*S16*.95;
+        EV.push([t, m[1], m[2]>1 ? .5 : .42, len]);
+        if (m[2] > 1) EV.push([t, m[1]-12, .22, len]);                            // オクターブ下を重ねる
+      });
+    });
+    EV.sort(function(a,b){ return a[0]-b[0]; });
+
+    function mtof(m){ return 440*Math.pow(2,(m-69)/12); }
+
+    function key(t, m, vel, dur){
+      var f = mtof(m);
+      var g = ac.createGain(), lp = ac.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.setValueAtTime(Math.min(f*9, 7000), t);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(f*2.2, 500), t+.35);
+      var decay = Math.min(1.4, .9*Math.sqrt(262/f)+.15);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(vel, t+.004);
+      g.gain.setTargetAtTime(vel*.35, t+.004, decay*.25);
+      g.gain.setTargetAtTime(0, t+dur, .07);
+      // 少しだけ調律をずらした2本の弦（古いアップライトの響き）
+      [-4, 5].forEach(function(cent){
+        var o = ac.createOscillator();
+        o.setPeriodicWave(wave);
+        o.frequency.value = f; o.detune.value = cent;
+        o.connect(lp); o.start(t); o.stop(t+dur+.5);
+      });
+      lp.connect(g); g.connect(master);
+    }
+
+    var loopStart = 0, idx = 0, tick = null;
+    function pump(){
+      var ahead = ac.currentTime + .35;
+      while (true){
+        var e = EV[idx], t = loopStart + e[0];
+        if (t > ahead) break;
+        var hum = (Math.random()-.5)*.008;            // 人の手のわずかな揺れ
+        key(t + hum, e[1], e[2]*(.9+Math.random()*.2), e[3]);
+        idx++;
+        if (idx >= EV.length){ idx = 0; loopStart += LOOP; }
+      }
+    }
+
+    function label(){ document.getElementById('mute').textContent = on ? '♪ 音を消す' : '♪ 音を出す'; }
+
+    return {
+      start: function(withSound){
+        on = withSound;
+        if (!ac){
+          try {
+            ac = new (window.AudioContext||window.webkitAudioContext)();
+            var amp = new Float32Array([0,1,.55,.32,.22,.12,.09,.05,.035,.02]);
+            wave = ac.createPeriodicWave(amp, new Float32Array(amp.length));
+            master = ac.createGain();
+            // 古いレコードのような、少しこもった音色と小さな部屋の響き
+            var tone = ac.createBiquadFilter(); tone.type='lowpass'; tone.frequency.value=4200;
+            var low = ac.createBiquadFilter(); low.type='highpass'; low.frequency.value=70;
+            var dl = ac.createDelay(), fb = ac.createGain(), wet = ac.createGain();
+            dl.delayTime.value=.09; fb.gain.value=.22; wet.gain.value=.18;
+            master.connect(low); low.connect(tone); tone.connect(ac.destination);
+            tone.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(ac.destination);
+            loopStart = ac.currentTime + .2; idx = 0;
+            tick = setInterval(pump, 60); pump();
+          } catch(e){ ac = null; }
+        }
+        if (ac){
+          if (ac.state === 'suspended') ac.resume();
+          master.gain.setTargetAtTime(on ? .32 : 0, ac.currentTime, .05);
+        }
+        label();
+      },
+      toggle: function(){
+        on = !on;
+        if (master) master.gain.setTargetAtTime(on ? .32 : 0, ac.currentTime, .1);
+        label();
+      },
+      finish: function(){}   // 終幕のあとも、そのまま繰り返し流します
+    };
+  })();
+
+  function begin(withSound){
+    if (typeof withSound !== 'boolean') withSound = true;
+    Music.start(withSound);
+    document.body.classList.remove('ended');
+    document.getElementById('curtain').classList.add('gone');
+    document.getElementById('endUI').classList.remove('on');
+    document.getElementById('hint').style.visibility='visible';
+    running = true;
+    show(0);
+  }
+
+  document.getElementById('curtain').addEventListener('click', function(){ begin(true); });
+  document.getElementById('silent').addEventListener('click', function(e){ e.stopPropagation(); begin(false); });
+  document.getElementById('again').addEventListener('click', function(e){ e.stopPropagation();
+    begin(document.getElementById('mute').textContent.indexOf('消す') >= 0); });
+  document.getElementById('mute').addEventListener('click', function(e){ e.stopPropagation(); Music.toggle(); });
+  document.getElementById('screen').addEventListener('click', function(){ if (running) next(); });
+
+  if (reduce) return;
+
+  /* フィルムの粒子 */
+  var cv = document.getElementById('grain'), cx = cv.getContext('2d');
+  var W = Math.min(480, Math.round(innerWidth*0.9)), H = Math.round(W*innerHeight/innerWidth);
+  cv.width = W; cv.height = H;
+  var img = cx.createImageData(W, H);
+  var last = 0;
+  (function grain(t){
+    if (t - last > 110){
+      last = t;
+      var d = img.data;
+      for (var i = 0; i < d.length; i += 4){ var v = 128 + (Math.random()-.5)*70; d[i]=v; d[i+1]=v*.93; d[i+2]=v*.8; d[i+3]=255; }
+      cx.putImageData(img, 0, 0);
+    }
+    requestAnimationFrame(grain);
+  })(0);
+
+  /* 縦の傷 */
+  var sc = document.getElementById('scratches');
+  setInterval(function(){
+    sc.innerHTML = '';
+    if (document.body.classList.contains('film') && Math.random() < .12){
+      var n = 1;
+      for (var i=0;i<n;i++){
+        var s = document.createElement('i');
+        s.style.left = (Math.random()*100) + '%';
+        s.style.opacity = (.2 + Math.random()*.5).toFixed(2);
+        sc.appendChild(s);
+      }
+    }
+  }, 180);
+})();
+</script>
+</body>
+</html>
