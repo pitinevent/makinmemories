@@ -31,6 +31,14 @@
     font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.18em;}
   .hero .sub::before,.hero .sub::after{content:"✦";font-size:10px;letter-spacing:0;}
 
+  .trailer{display:inline-flex;align-items:center;gap:10px;margin-top:22px;
+    padding:11px 22px;border-radius:999px;background:var(--gold);color:var(--navy);
+    font-size:14px;font-weight:700;letter-spacing:.12em;text-decoration:none;
+    box-shadow:0 0 0 0 rgba(224,178,76,.45);animation:tpulse 2.6s ease-in-out infinite;}
+  .trailer::before{content:"";border-left:10px solid var(--navy);
+    border-top:6px solid transparent;border-bottom:6px solid transparent;}
+  @keyframes tpulse{50%{box-shadow:0 0 0 9px rgba(224,178,76,0);}}
+  @media (prefers-reduced-motion:reduce){.trailer{animation:none;}}
   .rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px 0;}
   .rule i{display:block;width:56px;height:1px;background:var(--line);}
   .rule span{color:var(--gold);font-size:13px;}
@@ -101,6 +109,7 @@
        onerror="this.outerHTML='&lt;div class=&quot;fallback&quot;&gt;Makin&#39; Memories&lt;/div&gt;'">
   <div class="copy">あなたのショーを魅せてください</div>
   <div class="sub">ディズニーロルカナ イベント</div>
+  <div><a class="trailer" href="trailer.html">予告編を観る</a></div>
 </div>
 
 <div class="notice" id="notice"><b>お知らせ</b><span id="noticeText"></span></div>
@@ -210,7 +219,7 @@
 /* ============================================================
    GASのウェブアプリURL（末尾 /exec）を貼ってください
    ============================================================ */
-var API = 'https://script.google.com/macros/s/AKfycbxDhU1zzjhV_NSFjIFSMZGlxHX4ru6gVluLN0cSelTXUhbZmgr7iD6Pof3TXly5AkjS4g/exec';
+var API = 'https://script.google.com/macros/s/ここにデプロイIDを貼る/exec';
 
 function esc(s){
   return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
